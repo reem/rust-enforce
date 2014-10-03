@@ -9,14 +9,14 @@ use std::fmt::{mod, Show};
 
 #[macro_export]
 macro_rules! enforce {
-    ($e:expr) => {{
+    ($e:expr) => {
         ::enforce::Enforce {
             data: $e,
             repr: stringify!($e),
             location: (file!(), line!()),
             negated: false
         }
-    }}
+    }
 }
 
 /// A wrapper around a piece of data that enables assertions.
@@ -84,10 +84,12 @@ impl<T: Show> Enforce<T> {
 impl<T: PartialEq + Show> Enforce<T> {
     /// Asserts that the value inside `enforce!` and the passed-in value are equal.
     pub fn equal(self, val: T) {
-        if self.data != val || val != self.data {
-            if self.negated {
+        if self.negated {
+            if self.data == val && val == self.data {
                 self.error(format!("{} == {}", self.repr, val));
-            } else {
+            }
+        } else {
+            if self.data != val || val != self.data {
                 self.error(format!("{} != {}", self.repr, val));
             }
         }
