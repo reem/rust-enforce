@@ -4,3 +4,6 @@ name = "enforce"
 version = "0.0.1"
 authors = ["Jonathan Reem <jonathan.reem@gmail.com>"]
 
+[dev-dependencies.stainless]
+git = "https://github.com/reem/stainless"
+
