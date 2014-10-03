@@ -5,26 +5,40 @@
 
 //! Fluid assertions in Rust.
 
-use std::fmt::Show;
+use std::fmt::{mod, Show};
 
 #[macro_export]
 macro_rules! enforce {
-    ($e:expr) => {
-        enforce::Enforce {
+    ($e:expr) => {{
+        ::enforce::Enforce {
             data: $e,
             repr: stringify!($e),
-            location (file!(), line!()),
+            location: (file!(), line!()),
             negated: false
         }
-    }
+    }}
 }
 
 /// A wrapper around a piece of data that enables assertions.
+#[deriving(PartialEq)]
 pub struct Enforce<T: Show> {
-    data: T,
-    repr: &'static str,
-    location: (&'static str, uint),
-    negated: bool
+    #[doc(hidden)]
+    pub data: T,
+
+    #[doc(hidden)]
+    pub repr: &'static str,
+
+    #[doc(hidden)]
+    pub location: (&'static str, uint),
+
+    #[doc(hidden)]
+    pub negated: bool
+}
+
+impl<T: Show> Show for Enforce<T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.data)
+    }
 }
 
 impl<T: Show> Enforce<T> {
