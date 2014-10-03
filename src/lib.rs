@@ -107,8 +107,8 @@ impl<T: PartialEq + Show> Enforce<T> {
 
 impl<T: Show> Enforce<Option<T>> {
     /// Asserts that the `Option` inside of `enforce!` is `Some`.
-    pub fn some(self) {
-        if self.negated { return self.none(); }
+    pub fn some(mut self) {
+        if self.negated { self.negated = false; return self.none(); }
 
         if !self.data.is_some() {
             self.error(format!("{} is None", self.repr));
@@ -116,8 +116,8 @@ impl<T: Show> Enforce<Option<T>> {
     }
 
     /// Asserts that the `Option` inside of `enforce!` is `None`.
-    pub fn none(self) {
-        if self.negated { self.some(); return; }
+    pub fn none(mut self) {
+        if self.negated { self.negated = false; self.some(); return; }
 
         if !self.data.is_none() {
             self.error(format!("{} is {}", self.repr, self.data));
@@ -127,8 +127,8 @@ impl<T: Show> Enforce<Option<T>> {
 
 impl<S: Show, E: Show> Enforce<Result<S, E>> {
     /// Asserts that the `Result` inside of `enforce!` is `Ok`.
-    pub fn ok(self) {
-        if self.negated { return self.err(); }
+    pub fn ok(mut self) {
+        if self.negated { self.negated = false; return self.err(); }
 
         if !self.data.is_ok() {
             self.error(format!("{} is {}", self.repr, self.data));
@@ -136,8 +136,8 @@ impl<S: Show, E: Show> Enforce<Result<S, E>> {
     }
 
     /// Asserts that the `Result` inside of `enforce!` is `Err`.
-    pub fn err(self) {
-        if self.negated { return self.ok(); }
+    pub fn err(mut self) {
+        if self.negated { self.negated = false; return self.ok(); }
 
         if !self.data.is_err() {
             self.error(format!("{} is {}", self.repr, self.data));
