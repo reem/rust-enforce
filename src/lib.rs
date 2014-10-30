@@ -77,7 +77,7 @@ impl<T: Show> Enforce<T> {
 
     fn error(&self, msg: String) -> ! {
         let (file, line) = self.location;
-        fail!("\nEnforce Error {}:{} - {}", file, line, msg);
+        panic!("\nEnforce Error {}:{} - {}", file, line, msg);
     }
 }
 
