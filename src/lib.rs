@@ -1,6 +1,6 @@
 #![feature(macro_rules)]
 #![license = "MIT"]
-#![deny(missing_doc)]
+#![deny(missing_docs)]
 #![deny(warnings)]
 
 //! Fluid assertions in Rust.
