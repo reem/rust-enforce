@@ -11,7 +11,7 @@ describe! error_types {
                 (enforce!(Some(7u))).some();
             }
 
-            failing "should fail is something is None" {
+            failing "should fail if something is None" {
                 (enforce!(None::<uint>)).some();
             }
 
@@ -25,7 +25,7 @@ describe! error_types {
                 (enforce!(None::<()>)).none();
             }
 
-            failing "should fail is something is Some" {
+            failing "should fail if something is Some" {
                 (enforce!(Some(7u))).none();
             }
 
@@ -55,7 +55,7 @@ describe! error_types {
                 (enforce!(Err::<(), uint>(7u))).err();
             }
 
-            failing "should fail is something is Ok" {
+            failing "should fail if something is Ok" {
                 (enforce!(Ok::<uint, ()>(7u))).err();
             }
 
